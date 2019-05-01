@@ -2,7 +2,7 @@
 source "${DIR}/utils/check_deps.sh"
 
 # Get screen width
-WIDTH="$(i3-msg -t get_workspaces | jq '.[] | select(.focused).rect.width')"
+WIDTH="$(i3-msg -t get_workspaces | "${DIR}/vendor/json.sh" -b | egrep '\[0,"rect","width"\]' | cut -f2)"
 
 # Bar height
 HEIGHT=40

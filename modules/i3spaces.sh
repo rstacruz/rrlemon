@@ -44,5 +44,4 @@ i3-msg -t subscribe -m '[ "workspace" ]' | while read output; do
   cache:push I3SPACES "$(i3spaces)"
 done &
 
-cache:push I3SPACES "$(i3spaces)" &
-
+cache:push I3SPACES "$(i3spaces)"

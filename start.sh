@@ -13,24 +13,40 @@ HEIGHT=40
 # Padding on the left/right of the bar
 PAD=16
 
+# Colors
+LINE_COLOR="#10FFFFFF"
+MUTE_COLOR="#80FFFFFF"
+TEXT_COLOR="#FFFFFFFF"
+ACCENT_COLOR="#FC5C00"
+
+# Position
 POSITION=top
 
+# Fonts
+MAIN_FONT="Inter Medium-10"
+XL_FONT="Inter Thin BETA-64"
+
+export LINE_COLOR MUTE_COLOR TEXT_COLOR ACCENT_COLOR
+
+# Cleanup crew
 finish() {
   pkill -P $$
   killall "$(basename "$0")" &>/dev/null
 }
-
 trap finish EXIT
 
+# Kill everything before we start
 killall lemonbar &>/dev/null
 killall polybar &>/dev/null
+while pgrep -u "$UID" -x lemonbar &>/dev/null; do sleep 0.02; done
 
 (
   "${DIR}/bars/main.sh" | \
     lemonbar \
       -g "${WIDTH}x${HEIGHT}" \
       $(if [[ "$POSITION" == "bottom" ]]; then echo -ne "-b"; fi) \
-      -f "Inter Medium-10" \
+      -F "$TEXT_COLOR" \
+      -f "$MAIN_FONT" \
       -f "Font Awesome 5 Free-Regular-10"
 ) &
 
@@ -40,7 +56,7 @@ killall polybar &>/dev/null
     lemonbar \
     -g "$((WIDTH - PAD - PAD))x1+$((PAD))+$((HEIGHT))"  \
     -d \
-    -B "#10FFFFFF"
+    -B "$LINE_COLOR"
 ) &
 
 (
@@ -48,10 +64,10 @@ killall polybar &>/dev/null
     lemonbar \
       -g "${WIDTH}x128" \
       -n 'bar-backdrop' \
-      -F '#80FFFFFF' \
+      -F "$MUTE_COLOR" \
       -d \
       -b \
-      -f "Inter Thin BETA-64"
+      -f "$XL_FONT"
 ) &
 
 (

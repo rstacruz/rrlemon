@@ -21,23 +21,15 @@ finish() {
 trap finish EXIT
 
 # Colors
-HILITE="%{F-}%{U#6C5CE7}%{+u}" # highlight
+HILITE="%{F-}%{U${ACCENT_COLOR:-#6C5CE7}}%{+u}" # highlight
 RESET="%{F-}%{-u}" # reset
-MUTE="%{F#80FFFFFF}" # mute
+MUTE="%{F${MUTE_COLOR:-#80FFFFFF}}" # mute
 SPACE="%{O16}"
 SPACE2="%{O24}"
 
-# Color aliases
-H="$HILITE"
-R="$RESET"
-C="$RESET"
-M="$MUTE"
-S="$SPACE"
-SS="$SPACE2"
-
 bar() {
-  echo -en "%{l}${SS}${CACHE[I3SPACES]}"
-  echo -en "%{r}${CACHE[BATTERY]}$SS"
+  echo -en "%{l}${SPACE2}${CACHE[I3SPACES]}"
+  echo -en "%{r}${CACHE[BATTERY]}${SPACE2}"
   echo -en "%{c}${CACHE[CLOCK]}"
 }
 

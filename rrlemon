@@ -2,5 +2,25 @@
 set -m
 DIR="${0%/*}"
 
-source "$DIR/actions/stop.sh"
-source "$DIR/actions/start.sh"
+#source "$DIR/actions/stop.sh"
+ACTION="$1"
+
+case "$1" in
+  stop)
+    source "$DIR/actions/stop.sh"
+    ;;
+
+  restart)
+    source "$DIR/actions/stop.sh"
+    source "$DIR/actions/start.sh"
+    ;;
+
+  start)
+    source "$DIR/actions/start.sh"
+    ;;
+
+  *)
+    echo "Usage: $0 <start|stop|restart>"
+    exit 1
+    ;;
+esac

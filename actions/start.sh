@@ -49,10 +49,11 @@ echo 'spawning'
 PIDS="$PIDS $!"
 
 # Horizontal line
-"${DIR}/bars/null.sh" \
+echo "" \
   | lemonbar \
-  -g "$((WIDTH - PAD - PAD))x1+$((PAD))+$((HEIGHT))"  \
+  -g "$((WIDTH - PAD - PAD))x1+$((PAD))+$((HEIGHT - 1))"  \
   -d \
+  -p \
   -B "$LINE_COLOR" \
   &
 PIDS="$PIDS $!"

@@ -32,7 +32,6 @@ killall polybar &>/dev/null
   "${DIR}/bars/main.sh" | \
     lemonbar \
       -g "${WIDTH}x${HEIGHT}" \
-      -u 2 \
       $(if [[ "$POSITION" == "bottom" ]]; then echo -ne "-b"; fi) \
       -f "Inter Medium-10" \
       -f "Font Awesome 5 Free-Regular-10"
@@ -51,6 +50,7 @@ killall polybar &>/dev/null
   "${DIR}/bars/backdrop.sh" | \
     lemonbar \
       -g "${WIDTH}x128" \
+      -n 'bar-backdrop' \
       -F '#80FFFFFF' \
       -d \
       -b \

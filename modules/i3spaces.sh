@@ -4,10 +4,10 @@ i3spaces() {
   local focused="$(echo "$workspaces" | jq -r '.[] | select(.focused).name')"
 
   echo "$spaces" | while read space; do
-    if [[ "$focused" == "$space" ]]; then echo -ne "$C"; else echo -ne "$M"; fi
+    if [[ "$focused" == "$space" ]]; then echo -ne "$H"; else echo -ne "$M"; fi
     # Remove prefix '1:Term' > 'Term'
     local name="$(echo "$space" | sed 's/^[^:]\+://')"
-    echo -ne "${name}$SS"
+    echo -ne "${name}$R$SS"
   done
 }
 

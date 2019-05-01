@@ -13,17 +13,28 @@ trap finish EXIT
 
 c_text() {
   echo -ne "%{F-}"
-  echo -ne "%{U#FFFFFFFF}"
+}
+
+c_hilight() {
+  echo -ne "%{F-}"
 }
 
 c_mute() {
   echo -ne "%{F#80FFFFFF}"
 }
 
-C=$(c_text)    # text
-M=$(c_mute)    # mute
-S="    "       # space
-SS="      "    # superspace
+HILITE="%{F-}%{U#6C5CE7}%{+u}" # highlight
+RESET="%{F-}%{-u}" # reset
+MUTE="%{F#80FFFFFF}" # mute
+SPACE="%{O16}"
+SPACE2="%{O24}"
+
+H="$HILITE"
+R="$RESET"
+C="$RESET"
+M="$MUTE"
+S="$SPACE"
+SS="$SPACE2"
 
 clock() {
   local date="$(date "+%I:%M %p" | sed 's/^0//')"

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 clock() {
-  local date="$(date "+%I:%M")"
+  local date="$(date "+%I:%M" | sed 's/^0//')"
   echo "$date"
 }
 

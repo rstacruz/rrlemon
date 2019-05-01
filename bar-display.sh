@@ -12,12 +12,13 @@ c_mute() {
   echo -ne "%{F#80FFFFFF}"
 }
 
-C=$(c_text) # text
-M=$(c_mute) # mute
-S="    "    # space
+C=$(c_text)    # text
+M=$(c_mute)    # mute
+S="    "       # space
+SS="      "    # superspace
 
 clock() {
-  local date="$(date "+%I:%M %p")"
+  local date="$(date "+%I:%M %p" | sed 's/^0//')"
   echo "$C$date"
 }
 
@@ -36,7 +37,7 @@ battery() {
   )"
 
   # 03:14:28
-  local time="$(echo "$batinfo" | cut -d' ' -f5)"
+  local time="$(echo "$batinfo" | cut -d' ' -f5 | cut -d':' -f1-2 | sed -s 's/^0//')"
 
   local suffix="$(if [[ "$status" == "Discharging" ]]; then echo "left"; else echo "to full"; fi)"
 
@@ -47,8 +48,21 @@ edgespace() {
   echo -ne "    "
 }
 
+i3() {
+  local workspaces="$(i3-msg -t get_workspaces)"
+  local spaces="$(echo "$workspaces" | jq -r '.[].name')"
+  local focused="$(echo "$workspaces" | jq -r '.[] | select(.focused).name')"
+
+  echo "$spaces" | while read space; do
+    if [[ "$focused" == "$space" ]]; then echo -ne "$C"; else echo -ne "$M"; fi
+    local name="$(echo "$space" | sed 's/^[^:]\+://')"
+    echo -ne "${name}$SS"
+  done
+}
+
 bar() {
-  echo -en "%{l}$(edgespace)$(battery)"
+  echo -en "%{l}$(edgespace)$(i3)"
+  echo -en "%{r}$(battery)$(edgespace)"
   echo -en "%{c}$(clock)"
 }
 

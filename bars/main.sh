@@ -19,6 +19,9 @@ finish() {
   rm -f "$PIPE"
 }
 trap finish EXIT
+trap finish SIGHUP
+trap finish SIGINT
+trap finish SIGTERM
 
 # Colors
 HILITE="%{F-}%{U${ACCENT_COLOR:-#6C5CE7}}%{+u}" # highlight

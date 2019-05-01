@@ -34,6 +34,9 @@ finish() {
   killall "$(basename "$0")" &>/dev/null
 }
 trap finish EXIT
+trap finish SIGHUP
+trap finish SIGINT
+trap finish SIGTERM
 
 # Kill everything before we start
 killall lemonbar &>/dev/null

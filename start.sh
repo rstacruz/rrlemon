@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -m
 DIR="${0%/*}"
 
 # Check 3rd-party dependencies
@@ -43,41 +44,36 @@ killall lemonbar &>/dev/null
 killall polybar &>/dev/null
 while pgrep -u "$UID" -x lemonbar &>/dev/null; do sleep 0.02; done
 
-(
-  "${DIR}/bars/main.sh" | \
-    lemonbar \
-      -g "${WIDTH}x${HEIGHT}" \
-      $(if [[ "$POSITION" == "bottom" ]]; then echo -ne "-b"; fi) \
-      -F "$TEXT_COLOR" \
-      -f "$MAIN_FONT" \
-      -f "Font Awesome 5 Free-Regular-10"
-) &
+"${DIR}/bars/main.sh" \
+  | lemonbar \
+  -g "${WIDTH}x${HEIGHT}" \
+  "$(if [[ "$POSITION" == "bottom" ]]; then echo -ne "-b"; fi)" \
+  -F "$TEXT_COLOR" \
+  -f "$MAIN_FONT" \
+  -f "Font Awesome 5 Free-Regular-10" \
+  &
 
-(
-  # Horizontal line
-  "${DIR}/bars/null.sh" | \
-    lemonbar \
-    -g "$((WIDTH - PAD - PAD))x1+$((PAD))+$((HEIGHT))"  \
+# Horizontal line
+"${DIR}/bars/null.sh" \
+  | lemonbar \
+  -g "$((WIDTH - PAD - PAD))x1+$((PAD))+$((HEIGHT))"  \
+  -d \
+  -B "$LINE_COLOR" \
+  &
+
+  "${DIR}/bars/backdrop.sh" \
+    | lemonbar \
+    -g "${WIDTH}x128" \
+    -n 'bar-backdrop' \
+    -F "$MUTE_COLOR" \
     -d \
-    -B "$LINE_COLOR"
-) &
+    -b \
+    -f "$XL_FONT" \
+    &
 
-(
-  "${DIR}/bars/backdrop.sh" | \
-    lemonbar \
-      -g "${WIDTH}x128" \
-      -n 'bar-backdrop' \
-      -F "$MUTE_COLOR" \
-      -d \
-      -b \
-      -f "$XL_FONT"
-) &
-
-(
-  while ! xdo id -a "bar-backdrop" &>/dev/null; do sleep 0.1; done
-  xdo id -a "bar-backdrop" | while read id; do
-    xdo lower "$id"
-  done
-) &
+while ! xdo id -a "bar-backdrop" &>/dev/null; do sleep 0.1; done
+xdo id -a "bar-backdrop" | while read id; do
+  xdo lower "$id"
+done
 
 wait

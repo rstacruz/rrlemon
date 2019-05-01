@@ -3,6 +3,7 @@
 # %{l} %{c} %{r} - left, center, right
 # %{F#000000}
 
+set -m
 DIR="${0%/*}/.."
 
 # This is the conduit where subprocesses can comminucate to the main process.
@@ -14,6 +15,7 @@ mkfifo "$PIPE"
 declare -A CACHE
 
 # Cleanup crew
+PIDS=""
 finish() {
   pkill -P $$
   rm -f "$PIPE"
@@ -41,20 +43,23 @@ cache:push() {
 }
 
 # Continuously render when `cache:push`
-while read line <$PIPE; do
-  key="$(echo "$line" | cut -d' ' -f1)"
-  val="$(echo "$line" | cut -d' ' -f2-)"
-  CACHE["$key"]="$val"
-  output="$(bar)"
-  if [[ "${CACHE[_output]}" != "$output" ]]; then
-    echo "$output"
-  fi
-  CACHE[_output]="$output"
-done &
+(
+  while read line <$PIPE; do
+    key="$(echo "$line" | cut -d' ' -f1)"
+    val="$(echo "$line" | cut -d' ' -f2-)"
+    CACHE["$key"]="$val"
+    output="$(bar)"
+    if [[ "${CACHE[_output]}" != "$output" ]]; then
+      echo "$output"
+    fi
+    CACHE[_output]="$output"
+  done
+) &
+PIDS="$PIDS $!"
 
 # Load the modules
-source "$DIR/modules/battery.sh"
-source "$DIR/modules/clock.sh"
-source "$DIR/modules/i3spaces.sh"
+source "$DIR/modules/battery.sh" & PIDS="$PIDS $!"
+source "$DIR/modules/clock.sh" & PIDS="$PIDS $!"
+source "$DIR/modules/i3spaces.sh" & PIDS="$PIDS $!"
 
-wait
+wait $PIDS

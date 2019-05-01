@@ -23,4 +23,4 @@ battery() {
 while true; do
   cache:push BATTERY "$(battery)"
   sleep 20
-done &
+done

@@ -27,9 +27,11 @@ POSITION=top
 MAIN_FONT="Inter Medium-10"
 XL_FONT="Inter Thin BETA-64"
 
+# Export for scripts
 export LINE_COLOR MUTE_COLOR TEXT_COLOR ACCENT_COLOR
 
 # Cleanup crew
+PIDS=""
 finish() {
   pkill -P $$
   killall "$(basename "$0")" &>/dev/null
@@ -52,6 +54,7 @@ while pgrep -u "$UID" -x lemonbar &>/dev/null; do sleep 0.02; done
   -f "$MAIN_FONT" \
   -f "Font Awesome 5 Free-Regular-10" \
   &
+PIDS="$PIDS $!"
 
 # Horizontal line
 "${DIR}/bars/null.sh" \
@@ -60,20 +63,25 @@ while pgrep -u "$UID" -x lemonbar &>/dev/null; do sleep 0.02; done
   -d \
   -B "$LINE_COLOR" \
   &
+PIDS="$PIDS $!"
 
-  "${DIR}/bars/backdrop.sh" \
-    | lemonbar \
-    -g "${WIDTH}x128" \
-    -n 'bar-backdrop' \
-    -F "$MUTE_COLOR" \
-    -d \
-    -b \
-    -f "$XL_FONT" \
-    &
+# Backdrop
+"${DIR}/bars/backdrop.sh" \
+  | lemonbar \
+  -g "${WIDTH}x128" \
+  -n 'bar-backdrop' \
+  -F "$MUTE_COLOR" \
+  -d \
+  -b \
+  -f "$XL_FONT" \
+  &
+PIDS="$PIDS $!"
 
+# Lower the backdrop below all windows
 while ! xdo id -a "bar-backdrop" &>/dev/null; do sleep 0.1; done
 xdo id -a "bar-backdrop" | while read id; do
   xdo lower "$id"
 done
 
-wait
+# Wait for those pids
+wait $PIDS

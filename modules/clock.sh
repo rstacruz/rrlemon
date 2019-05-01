@@ -6,5 +6,4 @@ clock() {
 while true; do
   cache:push CLOCK "$(clock)"
   sleep 5
-done &
-
+done

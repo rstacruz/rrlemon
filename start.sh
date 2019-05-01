@@ -34,7 +34,6 @@ export LINE_COLOR MUTE_COLOR TEXT_COLOR ACCENT_COLOR
 PIDS=""
 finish() {
   pkill -P $$
-  killall "$(basename "$0")" &>/dev/null
 }
 trap finish EXIT
 trap finish SIGHUP
@@ -42,8 +41,11 @@ trap finish SIGINT
 trap finish SIGTERM
 
 # Kill everything before we start
-killall lemonbar &>/dev/null
-killall polybar &>/dev/null
+pkill lemonbar
+pkill polybar
+echo pid $PID
+pgrep -f "$(basename "$0")" | grep -v $$
+pgrep -f "$(basename "$0")" | grep -v $$ | xargs kill
 while pgrep -u "$UID" -x lemonbar &>/dev/null; do sleep 0.02; done
 
 "${DIR}/bars/main.sh" \

@@ -17,11 +17,13 @@ i3spaces() {
   local workspaces="$( \
     i3-msg -t get_workspaces \
     | "$DIR/vendor/json.sh" \
-    | grep -E '^\[[0-9]+,"(name|focused)"\]')"
+    | egrep '^\[[0-9]+,"(name|focused)"\]' \
+    )"
 
   echo "$workspaces" | (
     while read space; do
       read focused
+
       # Strip until the first tab
       # `[0,"name"]   "hello"` > `"hello"`
       local space="${space#*$'\t'}"

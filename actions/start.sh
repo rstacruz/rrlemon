@@ -1,7 +1,6 @@
 # Check 3rd-party dependencies
 source "${DIR}/utils/check_deps.sh"
 
-echo 'width'
 # Get screen width
 WIDTH="$(i3-msg -t get_workspaces | "${DIR}/vendor/json.sh" -b | egrep '\[0,"rect","width"\]' | cut -f2)"
 
@@ -37,7 +36,6 @@ trap finish SIGHUP
 trap finish SIGINT
 trap finish SIGTERM
 
-echo 'spawning'
 "${DIR}/bars/main.sh" \
   | lemonbar \
   -g "${WIDTH}x${HEIGHT}" \

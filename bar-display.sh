@@ -1,5 +1,6 @@
 #!/bin/sh
 
+FREQUENCY=0.5
 # https://wiki.archlinux.org/index.php/Lemonbar#Configuration
 # %{l} %{c} %{r} - left, center, right
 # %{F#000000}
@@ -55,6 +56,7 @@ i3() {
 
   echo "$spaces" | while read space; do
     if [[ "$focused" == "$space" ]]; then echo -ne "$C"; else echo -ne "$M"; fi
+    # Remove prefix '1:Term' > 'Term'
     local name="$(echo "$space" | sed 's/^[^:]\+://')"
     echo -ne "${name}$SS"
   done
@@ -68,6 +70,6 @@ bar() {
 
 while true; do
   echo "$(bar)"
-  sleep 1
+  sleep "$FREQUENCY"
 done
 

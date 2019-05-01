@@ -18,6 +18,8 @@ declare -A CACHE
 PIDS=""
 finish() {
   pkill -P $$
+  # Hax: This doesn't seem to be taken care of
+  pkill -f "bars/main.sh" >&/dev/null
   rm -f "$PIPE"
 }
 trap finish EXIT

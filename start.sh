@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 DIR="${0%/*}"
 
 # Check 3rd-party dependencies

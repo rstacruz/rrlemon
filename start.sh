@@ -1,7 +1,20 @@
 #!/bin/sh
 
+if ! command -v i3-msg &>/dev/null; then
+  echo 'i3-msg not found'
+  exit 1
+fi
+if ! command -v jq &>/dev/null; then
+  echo 'jq not found'
+  exit 1
+fi
+if ! command -v acpi &>/dev/null; then
+  echo 'acpi not found'
+  exit 1
+fi
+
 DIR="${0%/*}"
-WIDTH=1920
+WIDTH="$(i3-msg -t get_workspaces | jq '.[1].rect.width')"
 HEIGHT=40
 PAD=16
 POSITION=top

@@ -4,8 +4,6 @@
 # %{F#000000}
 
 DIR="${0%/*}"
-I3SPACES=loading
-BATTERY=loading
 
 finish() {
   pkill -P $$
@@ -43,6 +41,11 @@ bar() {
   echo -en "%{l}$(edgespace)$(i3spaces)"
   echo -en "%{r}$(battery)$(edgespace)"
   echo -en "%{c}$(clock)"
+}
+
+bar:lr() {
+  echo -en "%{l}$(edgespace)$(clock)$SS$(i3spaces)"
+  echo -en "%{r}$(battery)$(edgespace)"
 }
 
 render() {

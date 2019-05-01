@@ -19,3 +19,8 @@ battery() {
 
   echo -ne "$C$percent$M$S$time $suffix"
 }
+
+while true; do
+  cache:push BATTERY "$(battery)"
+  sleep 20
+done &

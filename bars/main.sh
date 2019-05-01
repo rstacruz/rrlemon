@@ -5,7 +5,8 @@
 
 DIR="${0%/*}"
 
-# Named pipes
+# This is the conduit where subprocesses can comminucate to the main process.
+# Doing cache:push will send updates upward via this pipe.
 PIPE="/tmp/lemon.$$"
 mkfifo "$PIPE"
 
@@ -34,50 +35,31 @@ M="$MUTE"
 S="$SPACE"
 SS="$SPACE2"
 
-# Modules
-source "$DIR/../modules/battery.sh"
-source "$DIR/../modules/i3spaces.sh"
-
-clock() {
-  local date="$(date "+%I:%M %p" | sed 's/^0//')"
-  echo "$C$date"
-}
-
 bar() {
   echo -en "%{l}${SS}${CACHE[I3SPACES]}"
   echo -en "%{r}${CACHE[BATTERY]}$SS"
   echo -en "%{c}${CACHE[CLOCK]}"
 }
 
-render() {
-  echo "$(bar)"
-}
-
 cache:push() {
   echo "$1" "$2" > "$PIPE"
 }
 
-i3-msg -t subscribe -m '[ "workspace" ]' | while read output; do
-  cache:push I3SPACES "$(i3spaces)"
-done &
-
-while true; do
-  cache:push BATTERY "$(battery)"
-  sleep 2.5
-done &
-
-while true; do
-  cache:push CLOCK "$(clock)"
-  sleep 1
-done &
-
+# Continuously render when `cache:push`
 while read line <$PIPE; do
   key="$(echo "$line" | cut -d' ' -f1)"
   val="$(echo "$line" | cut -d' ' -f2-)"
-  echo "setting $key to $val" >&2
   CACHE["$key"]="$val"
-  render
-done
+  output="$(bar)"
+  if [[ "${CACHE[_output]}" != "$output" ]]; then
+    echo "$output"
+  fi
+  CACHE[_output]="$output"
+done &
 
-render
+# Load the modules
+source "$DIR/../modules/battery.sh"
+source "$DIR/../modules/clock.sh"
+source "$DIR/../modules/i3spaces.sh"
+
 wait

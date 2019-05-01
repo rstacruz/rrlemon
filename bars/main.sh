@@ -3,7 +3,7 @@
 # %{l} %{c} %{r} - left, center, right
 # %{F#000000}
 
-set -m
+set -eo pipefail
 DIR="${0%/*}/.."
 
 # This is the conduit where subprocesses can comminucate to the main process.
@@ -18,8 +18,12 @@ declare -A CACHE
 PIDS=""
 finish() {
   pkill -P $$
-  # Hax: This doesn't seem to be taken care of
-  pkill -f "bars/main.sh" >&/dev/null
+
+  # Kill grand-descendant processes. Kills the lingering i3-msg
+  for subpid in pgrep -P $$; do
+    pkill "$subpid"
+  done
+
   rm -f "$PIPE"
 }
 trap finish EXIT

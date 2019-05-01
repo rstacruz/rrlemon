@@ -1,26 +1,23 @@
 #!/bin/sh
-
-if ! command -v i3-msg &>/dev/null; then
-  echo 'i3-msg not found'
-  exit 1
-fi
-if ! command -v jq &>/dev/null; then
-  echo 'jq not found'
-  exit 1
-fi
-if ! command -v acpi &>/dev/null; then
-  echo 'acpi not found'
-  exit 1
-fi
-
 DIR="${0%/*}"
-WIDTH="$(i3-msg -t get_workspaces | jq '.[1].rect.width')"
+
+# Check 3rd-party dependencies
+source "${DIR}/utils/check_deps.sh"
+
+# Get screen width
+WIDTH="$(i3-msg -t get_workspaces | jq '.[] | select(.focused).rect.width')"
+
+# Bar height
 HEIGHT=40
+
+# Padding on the left/right of the bar
 PAD=16
+
 POSITION=top
 
 finish() {
   pkill -P $$
+  killall "$(basename "$0")" &>/dev/null
 }
 
 trap finish EXIT
@@ -54,7 +51,14 @@ killall polybar &>/dev/null
       -F '#80FFFFFF' \
       -d \
       -b \
-      -f "Inter Thin BETA-42"
+      -f "Inter Thin BETA-64"
+) &
+
+(
+  while ! xdo id -a "bar-backdrop" &>/dev/null; do sleep 0.1; done
+  xdo id -a "bar-backdrop" | while read id; do
+    xdo lower "$id"
+  done
 ) &
 
 wait

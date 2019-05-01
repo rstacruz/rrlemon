@@ -6,6 +6,6 @@ clock() {
 }
 
 while true; do
-  echo "%{r}$(clock)   "
+  echo "%{r}$(clock)%{O32}"
   sleep 1
 done

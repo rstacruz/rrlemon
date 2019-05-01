@@ -1,17 +1,22 @@
 #!/bin/sh
 
+DIR="${0%/*}"
 WIDTH=1920
 HEIGHT=40
 PAD=16
 POSITION=top
 
-# lemonbar-xft-git
+finish() {
+  pkill -P $$
+}
+
+trap finish EXIT
 
 killall lemonbar &>/dev/null
 killall polybar &>/dev/null
 
 (
-  ./bar-display.sh | \
+  "${DIR}/bars/main.sh" | \
     lemonbar \
       -g "${WIDTH}x${HEIGHT}" \
       -u 2 \
@@ -22,14 +27,15 @@ killall polybar &>/dev/null
 
 (
   # Horizontal line
-  lemonbar \
+  "${DIR}/bars/null.sh" | \
+    lemonbar \
     -g "$((WIDTH - PAD - PAD))x1+$((PAD))+$((HEIGHT))"  \
     -d \
     -B "#10FFFFFF"
 ) &
 
 (
-  ./bar-backdrop.sh | \
+  "${DIR}/bars/backdrop.sh" | \
     lemonbar \
       -g "${WIDTH}x128" \
       -F '#80FFFFFF' \
@@ -37,3 +43,5 @@ killall polybar &>/dev/null
       -b \
       -f "Inter Thin BETA-42"
 ) &
+
+wait

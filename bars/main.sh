@@ -3,7 +3,7 @@
 # %{l} %{c} %{r} - left, center, right
 # %{F#000000}
 
-DIR="${0%/*}"
+DIR="${0%/*}/.."
 
 # This is the conduit where subprocesses can comminucate to the main process.
 # Doing cache:push will send updates upward via this pipe.
@@ -50,8 +50,8 @@ while read line <$PIPE; do
 done &
 
 # Load the modules
-source "$DIR/../modules/battery.sh"
-source "$DIR/../modules/clock.sh"
-source "$DIR/../modules/i3spaces.sh"
+source "$DIR/modules/battery.sh"
+source "$DIR/modules/clock.sh"
+source "$DIR/modules/i3spaces.sh"
 
 wait

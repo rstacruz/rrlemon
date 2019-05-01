@@ -43,18 +43,16 @@ cache:push() {
 }
 
 # Continuously render when `cache:push`
-(
-  while read line <$PIPE; do
-    key="$(echo "$line" | cut -d' ' -f1)"
-    val="$(echo "$line" | cut -d' ' -f2-)"
-    CACHE["$key"]="$val"
-    output="$(bar)"
-    if [[ "${CACHE[_output]}" != "$output" ]]; then
-      echo "$output"
-    fi
-    CACHE[_output]="$output"
-  done
-) &
+while read line <$PIPE; do
+  key="$(echo "$line" | cut -d' ' -f1)"
+  val="$(echo "$line" | cut -d' ' -f2-)"
+  CACHE["$key"]="$val"
+  output="$(bar)"
+  if [[ "${CACHE[_output]}" != "$output" ]]; then
+    echo "$output"
+  fi
+  CACHE[_output]="$output"
+done &
 PIDS="$PIDS $!"
 
 # Load the modules

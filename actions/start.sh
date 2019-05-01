@@ -1,7 +1,3 @@
-#!/usr/bin/env bash
-set -m
-DIR="${0%/*}"
-
 # Check 3rd-party dependencies
 source "${DIR}/utils/check_deps.sh"
 
@@ -39,14 +35,6 @@ trap finish EXIT
 trap finish SIGHUP
 trap finish SIGINT
 trap finish SIGTERM
-
-# Kill everything before we start
-pkill lemonbar
-pkill polybar
-echo pid $PID
-pgrep -f "$(basename "$0")" | grep -v $$
-pgrep -f "$(basename "$0")" | grep -v $$ | xargs kill
-while pgrep -u "$UID" -x lemonbar &>/dev/null; do sleep 0.02; done
 
 "${DIR}/bars/main.sh" \
   | lemonbar \

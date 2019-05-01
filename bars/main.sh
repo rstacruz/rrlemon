@@ -18,12 +18,10 @@ declare -A CACHE
 PIDS=""
 finish() {
   pkill -P $$
-
   # Kill grand-descendant processes. Kills the lingering i3-msg
   for subpid in pgrep -P $$; do
     pkill "$subpid"
   done
-
   rm -f "$PIPE"
 }
 trap finish EXIT

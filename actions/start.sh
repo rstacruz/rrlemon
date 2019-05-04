@@ -1,30 +1,17 @@
 # Check 3rd-party dependencies
 source "${DIR}/utils/check_deps.sh"
+source "${DIR}/config.sh"
+
+if [[ -f "${DIR}/config.local.sh" ]]; then
+  source "${DIR}/config.local.sh"
+fi
 
 # Get screen width
 WIDTH="$(i3-msg -t get_workspaces | "${DIR}/vendor/json.sh" -b | egrep '\[0,"rect","width"\]' | cut -f2)"
 
-# Bar height
-HEIGHT=40
-
-# Padding on the left/right of the bar
-PAD=16
-
-# Colors
-LINE_COLOR="#10FFFFFF"
-MUTE_COLOR="#80FFFFFF"
-TEXT_COLOR="#FFFFFFFF"
-ACCENT_COLOR="#FC5C00"
-
-# Position
-POSITION=top
-
-# Fonts
-MAIN_FONT="Inter Medium-10"
-XL_FONT="Inter Thin BETA-64"
-
 # Export for scripts
-export LINE_COLOR MUTE_COLOR TEXT_COLOR ACCENT_COLOR
+export \
+  LINE_COLOR MUTE_COLOR TEXT_COLOR ACCENT_COLOR POSITION MAIN_FONT XL_FONT BACKGROUND_COLOR
 
 # Cleanup crew
 PIDS=""
@@ -42,14 +29,22 @@ trap finish SIGTERM
   "$(if [[ "$POSITION" == "bottom" ]]; then echo -ne "-b"; fi)" \
   -F "$TEXT_COLOR" \
   -f "$MAIN_FONT" \
+  -B "$BACKGROUND_COLOR" \
   -f "Font Awesome 5 Free-Regular-10" \
   &
 PIDS="$PIDS $!"
 
+if [[ "$POSITION" == "top" ]]; then
+  LINE_POSITION="$((PAD))+$((HEIGHT - 1))"
+else
+  LINE_POSITION="$((PAD))-$((HEIGHT - 1))"
+fi
+
 # Horizontal line
 echo "" \
   | lemonbar \
-  -g "$((WIDTH - PAD - PAD))x1+$((PAD))+$((HEIGHT - 1))"  \
+  -g "$((WIDTH - PAD - PAD))x1+$LINE_POSITION"  \
+  -n 'bar-backdrop' \
   -d \
   -p \
   -B "$LINE_COLOR" \
@@ -63,7 +58,7 @@ PIDS="$PIDS $!"
   -n 'bar-backdrop' \
   -F "$MUTE_COLOR" \
   -d \
-  -b \
+  "$(if [[ "$POSITION" == "top" ]]; then echo -ne "-b"; fi)" \
   -f "$XL_FONT" \
   &
 PIDS="$PIDS $!"

@@ -33,8 +33,8 @@ trap finish SIGTERM
 HILITE="%{F-}%{U${ACCENT_COLOR:-#6C5CE7}}%{+u}" # highlight
 RESET="%{F-}%{-u}" # reset
 MUTE="%{F${MUTE_COLOR:-#80FFFFFF}}" # mute
-SPACE="%{O16}"
-SPACE2="%{O24}"
+SPACE="%{O${SPACE_WIDTH}}"
+SPACE2="%{O${SPACE_2_WIDTH}}"
 
 bar() {
   echo -en "%{l}${SPACE2}${CACHE[I3SPACES]}"

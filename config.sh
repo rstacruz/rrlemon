@@ -3,7 +3,7 @@
 # and put your customizations there.
 
 # Bar height
-HEIGHT=40
+HEIGHT=48
 
 # Padding on the left/right of the bar
 PAD=16
@@ -19,6 +19,14 @@ ACCENT_COLOR="#FC5C00"
 POSITION=top
 
 # Fonts
-MAIN_FONT="Inter Medium-10"
+MAIN_FONT="Inter Medium-11"
 XL_FONT="Inter Thin BETA-64"
 
+# Extra spaces
+SPACE_WIDTH=32
+SPACE_2_WIDTH=32
+
+# Smaller mode:
+# HEIGHT=40
+# SPACE_WIDTH=16
+# SPACE_2_WIDTH=24

@@ -17,7 +17,7 @@ battery() {
 
   local suffix="$(if [[ "$status" == "Discharging" ]]; then echo "left"; else echo "to full"; fi)"
 
-  echo -ne "${percent}${MUTE}${SPACE}${time} ${suffix}"
+  echo -ne "${MUTE}${time} ${suffix}${SPACE}${RESET}${percent}"
 }
 
 while true; do

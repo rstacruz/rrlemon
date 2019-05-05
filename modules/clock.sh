@@ -1,6 +1,6 @@
 clock() {
   local date="$(date "+%I:%M %p" | sed 's/^0//')"
-  echo "$RESET$date"
+  echo "$date"
 }
 
 while true; do

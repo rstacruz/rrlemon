@@ -1,16 +1,11 @@
 if command -v xdo &>/dev/null; then
-  get_i3lock_status() {
-    if pgrep "i3lock" &>/dev/null; then
-      echo "Locked"
-    else
-      echo ''
-    fi
-  }
+  while xdo id -a i3lock -m &>/dev/null; do
+    cache:push I3LOCK "Locked"
 
-  while true; do
-    cache:push I3LOCK "$(get_i3lock_status)"
-    sleep 1
+    while pgrep "i3lock" &>/dev/null; do
+      sleep 0.2
+    done
+
+    cache:push I3LOCK ""
   done
-
-  # todo: you can wait for it via 'xdo id -a i3lock -m'
 fi

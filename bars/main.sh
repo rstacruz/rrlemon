@@ -41,7 +41,7 @@ bar() {
   local _="${SPACE}"
   if [[ "${CACHE[I3LOCK]}" == "Locked" ]]; then
     echo -en "%{c}This workstation is locked."
-    echo -en "%{r}${CACHE[CLOCK]}$__"
+    echo -en "%{r}${MUTE}${CACHE[CLOCK]}$__"
   else
     echo -en "%{l}$__${CACHE[I3SPACES]}"
     echo -en "%{r}${CACHE[BATTERY]}$__"

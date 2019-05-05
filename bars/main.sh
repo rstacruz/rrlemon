@@ -37,9 +37,13 @@ SPACE="%{O${SPACE_WIDTH}}"
 SPACE2="%{O${SPACE_2_WIDTH}}"
 
 bar() {
-  echo -en "%{l}${SPACE2}${CACHE[I3SPACES]}"
-  echo -en "%{r}${CACHE[BATTERY]}${SPACE2}"
+  local __="${SPACE2}"
+  local _="${SPACE}"
+  echo -en "%{l}$__${CACHE[I3SPACES]}"
+  echo -en "%{r}${CACHE[BATTERY]}$__"
   echo -en "%{c}${CACHE[CLOCK]}"
+  # echo -en "%{l}${SPACE2}${CACHE[I3SPACES]}"
+  # echo -en "%{r}${CACHE[BATTERY]}${SPACE}${CACHE[CLOCK]}${SPACE2}"
 }
 
 cache:push() {

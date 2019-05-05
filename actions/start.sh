@@ -6,12 +6,16 @@ if [[ -f "${DIR}/config.local.sh" ]]; then
   source "${DIR}/config.local.sh"
 fi
 
-# Get screen width
-WIDTH="$(i3-msg -t get_workspaces | "${DIR}/vendor/json.sh" -b | egrep '\[0,"rect","width"\]' | cut -f2)"
+# Get screen dimensions
+# (This is slow, and can be optimized!)
+WORKSPACES_JSON="$(i3-msg -t get_workspaces | "${DIR}/vendor/json.sh" -b)"
+SCREEN_WIDTH="$( echo "$WORKSPACES_JSON" | egrep '\[0,"rect","width"\]' | cut -f2)"
+SCREEN_HEIGHT="$(echo "$WORKSPACES_JSON" | egrep '\[0,"rect","height"\]' | cut -f2)"
 
 # Export for scripts
 export \
   LINE_COLOR MUTE_COLOR TEXT_COLOR ACCENT_COLOR POSITION MAIN_FONT XL_FONT BACKGROUND_COLOR \
+  LINE_PAD \
   SPACE_WIDTH SPACE_2_WIDTH
 
 # Cleanup crew
@@ -26,7 +30,7 @@ trap finish SIGTERM
 
 "${DIR}/bars/main.sh" \
   | lemonbar \
-  -g "${WIDTH}x${HEIGHT}" \
+  -g "${SCREEN_WIDTH}x${HEIGHT}" \
   "$(if [[ "$POSITION" == "bottom" ]]; then echo -ne "-b"; fi)" \
   -F "$TEXT_COLOR" \
   -f "$MAIN_FONT" \
@@ -36,15 +40,15 @@ trap finish SIGTERM
 PIDS="$PIDS $!"
 
 if [[ "$POSITION" == "top" ]]; then
-  LINE_POSITION="$((PAD))+$((HEIGHT - 1))"
+  LINE_POSITION="$((LINE_PAD))+$((HEIGHT - 1))"
 else
-  LINE_POSITION="$((PAD))-$((HEIGHT - 1))"
+  LINE_POSITION="$((LINE_PAD))+$((SCREEN_HEIGHT - HEIGHT - 1))"
 fi
 
 # Horizontal line
 echo "" \
   | lemonbar \
-  -g "$((WIDTH - PAD - PAD))x1+$LINE_POSITION"  \
+  -g "$((SCREEN_WIDTH - LINE_PAD - LINE_PAD))x1+$LINE_POSITION"  \
   -n 'bar-backdrop' \
   -d \
   -p \
@@ -55,7 +59,7 @@ PIDS="$PIDS $!"
 # Backdrop
 "${DIR}/bars/backdrop.sh" \
   | lemonbar \
-  -g "${WIDTH}x128" \
+  -g "${SCREEN_WIDTH}x128" \
   -n 'bar-backdrop' \
   -F "$MUTE_COLOR" \
   -d \

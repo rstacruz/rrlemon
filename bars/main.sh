@@ -39,9 +39,14 @@ SPACE2="%{O${SPACE_2_WIDTH}}"
 bar() {
   local __="${SPACE2}"
   local _="${SPACE}"
-  echo -en "%{l}$__${CACHE[I3SPACES]}"
-  echo -en "%{r}${CACHE[BATTERY]}$__"
-  echo -en "%{c}${CACHE[CLOCK]}"
+  if [[ "${CACHE[I3LOCK]}" == "Locked" ]]; then
+    echo -en "%{c}This workstation is locked."
+    echo -en "%{r}${CACHE[CLOCK]}$__"
+  else
+    echo -en "%{l}$__${CACHE[I3SPACES]}"
+    echo -en "%{r}${CACHE[BATTERY]}$__"
+    echo -en "%{c}${CACHE[CLOCK]}"
+  fi
   # echo -en "%{l}${SPACE2}${CACHE[I3SPACES]}"
   # echo -en "%{r}${CACHE[BATTERY]}${SPACE}${CACHE[CLOCK]}${SPACE2}"
 }
@@ -67,5 +72,6 @@ PIDS="$PIDS $!"
 source "$DIR/modules/battery.sh" & PIDS="$PIDS $!"
 source "$DIR/modules/clock.sh" & PIDS="$PIDS $!"
 source "$DIR/modules/i3spaces.sh" & PIDS="$PIDS $!"
+source "$DIR/modules/i3lock.sh" & PIDS="$PIDS $!"
 
 wait $PIDS

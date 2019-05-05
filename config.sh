@@ -7,6 +7,7 @@ HEIGHT=48
 
 # Padding on the left/right of the bar
 PAD=16
+LINE_PAD="$PAD"
 
 # Colors
 BACKGROUND_COLOR="#00000000"

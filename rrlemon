@@ -2,6 +2,17 @@
 set -m
 DIR="${0%/*}"
 
+# Recursive kill
+rkill() {
+  local pids="$(pgrep -P "$1")"
+  for subpid in $pids; do rkill "$subpid" 1; done
+  if [[ "$2" == 1 ]]; then kill "$1" &>/dev/null; fi
+}
+finish() {
+  rkill $$
+}
+trap finish EXIT SIGHUP SIGINT SIGTERM
+
 #source "$DIR/actions/stop.sh"
 ACTION="$1"
 

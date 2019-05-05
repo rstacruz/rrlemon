@@ -20,13 +20,6 @@ export \
 
 # Cleanup crew
 PIDS=""
-finish() {
-  pkill -P $$
-}
-trap finish EXIT
-trap finish SIGHUP
-trap finish SIGINT
-trap finish SIGTERM
 
 "${DIR}/bars/main.sh" \
   | lemonbar \

@@ -2,7 +2,7 @@
 set -m
 DIR="${0%/*}"
 
-# Recursive kill
+# Depth-first recursive kill
 rkill() {
   local pids="$(pgrep -P "$1")"
   for subpid in $pids; do rkill "$subpid" 1; done

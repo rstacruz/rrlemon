@@ -18,4 +18,8 @@ SPACE_WIDTH="32"
 SPACE_2_WIDTH="32"
 HEIGHT="44"
 
+# [Modules]
+MODULES="lr"
+# MODULES="mid"
+
 XL_FONT="Inter Thin BETA-64"

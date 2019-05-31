@@ -27,6 +27,7 @@ RESET="%{F-}%{-u}" # reset
 MUTE="%{F${MUTE_COLOR:-#80FFFFFF}}" # mute
 SPACE="%{O${SPACE_WIDTH}}"
 SPACE2="%{O${SPACE_2_WIDTH}}"
+MODULES="${MODULES:-mid}"
 
 bar() {
   local __="${SPACE2}"
@@ -34,10 +35,15 @@ bar() {
   if [[ "${CACHE[I3LOCK]}" == "Locked" ]]; then
     echo -en "%{c}This workstation is locked."
     echo -en "%{r}${MUTE}${CACHE[CLOCK]}$__"
+  elif [[ "$MODULES" == "lr" ]]; then
+    # left/right
+    echo -en "%{l}$__${CACHE[I3SPACES]}"
+    echo -en "%{r}${CACHE[BATTERY]}$__${RESET}${CACHE[CLOCK]}$__"
   else
+    # mid
     echo -en "%{l}$__${CACHE[I3SPACES]}"
     echo -en "%{r}${CACHE[BATTERY]}$__"
-    echo -en "%{c}${CACHE[CLOCK]}"
+    echo -en "%{c}${RESET}${CACHE[CLOCK]}"
   fi
   # echo -en "%{l}${SPACE2}${CACHE[I3SPACES]}"
   # echo -en "%{r}${CACHE[BATTERY]}${SPACE}${CACHE[CLOCK]}${SPACE2}"

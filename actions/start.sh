@@ -24,7 +24,7 @@ PIDS=""
 
 "${DIR}/bars/main.sh" \
   | lemonbar \
-  -g "${SCREEN_WIDTH}x${HEIGHT}" \
+  -g "${SCREEN_WIDTH}x$((HEIGHT - 1))" \
   "$(if [[ "$POSITION" == "bottom" ]]; then echo -ne "-b"; fi)" \
   -F "$TEXT_COLOR" \
   -f "$MAIN_FONT" \

@@ -27,6 +27,9 @@ XL_FONT="Inter Thin BETA-64"
 SPACE_WIDTH=32
 SPACE_2_WIDTH=32
 
+# Offset
+TEXT_OFFSET=0
+
 # Smaller mode:
 # HEIGHT=40
 # SPACE_WIDTH=16

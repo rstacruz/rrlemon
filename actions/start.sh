@@ -16,6 +16,7 @@ SCREEN_HEIGHT="$(echo "$WORKSPACES_JSON" | egrep '\[0,"rect","height"\]' | cut -
 export \
   LINE_COLOR MUTE_COLOR TEXT_COLOR ACCENT_COLOR POSITION MAIN_FONT XL_FONT BACKGROUND_COLOR \
   LINE_PAD \
+  TEXT_OFFSET \
   SPACE_WIDTH SPACE_2_WIDTH \
   MODULES
 
@@ -30,6 +31,7 @@ PIDS=""
   -f "$MAIN_FONT" \
   -B "$BACKGROUND_COLOR" \
   -f "Font Awesome 5 Free-Regular-10" \
+  -o "$TEXT_OFFSET" \
   &
 PIDS="$PIDS $!"
 

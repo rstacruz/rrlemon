@@ -1,12 +1,13 @@
 battery() {
   # battery percent ('85%')
-  local percent="$(cat /sys/class/power_supply/BAT0/capacity)%"
+  local percent="$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null)%"
 
   # If connected ('1' or '0')
-  local adapter="$(cat /sys/class/power_supply/ADP1/online)"
+  # AC or ADP1
+  local adapter="$(cat /sys/class/power_supply/A*/online 2>/dev/null)"
 
   # Discharging
-  local status="$(cat /sys/class/power_supply/BAT0/status)"
+  local status="$(cat /sys/class/power_supply/BAT0/status 2>/dev/null)"
 
   # "Battery 0: Discharging, 86%, 03:18:06 remaining"
   local batinfo="$( \

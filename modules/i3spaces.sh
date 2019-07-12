@@ -25,6 +25,9 @@ i3spaces() {
 
 cache:push I3SPACES "$(i3spaces)"
 
-i3-msg -t subscribe -m '[ "workspace" ]' | while read output; do
+(
+  set +e
+  while true; do i3-msg -t subscribe -m '[ "workspace" ]'; done
+) | while read output; do
   cache:push I3SPACES "$(i3spaces)"
 done

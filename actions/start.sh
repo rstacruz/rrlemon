@@ -38,7 +38,7 @@ PIDS="$PIDS $!"
 if [[ "$POSITION" == "top" ]]; then
   LINE_POSITION="$((LINE_PAD))+$((HEIGHT - 1))"
 else
-  LINE_POSITION="$((LINE_PAD))+$((SCREEN_HEIGHT - HEIGHT - 1))"
+  LINE_POSITION="$((LINE_PAD))+$((SCREEN_HEIGHT - 1))"
 fi
 
 # Horizontal line

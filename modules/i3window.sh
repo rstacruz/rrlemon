@@ -12,10 +12,17 @@ i3window() {
   local title="${raw#*$'\t'}"
 
   # Remove first and last characters
-  title="${title:1}"
-  title="${title:0:$((${#title} - 1))}"
+  if [[ "${title:0:1}" == '"' ]]; then
+    title="${title:1}"
+    title="${title:0:$((${#title} - 1))}"
+  fi
+
   echo $title
 }
+
+# Initially, populate it with something, because we don't get
+# new window data until something has changed
+cache:push I3WINDOW "$(hostname)"
 
 (
   set +e

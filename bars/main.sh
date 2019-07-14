@@ -39,8 +39,13 @@ bar() {
     # left/right
     echo -en "%{l}$__${CACHE[I3SPACES]}"
     echo -en "%{r}${CACHE[BATTERY]}$__${RESET}${CACHE[CLOCK]}$__"
+  elif [[ "$MODULES" == "mid" ]]; then
+    # mid (middle window title)
+    echo -en "%{l}$__${CACHE[I3SPACES]}"
+    echo -en "%{r}${CACHE[BATTERY]}$__${RESET}${CACHE[CLOCK]}$__"
+    echo -en "%{c}${RESET}${CACHE[I3WINDOW]}"
   else
-    # mid
+    # midclock
     echo -en "%{l}$__${CACHE[I3SPACES]}"
     echo -en "%{r}${CACHE[BATTERY]}$__"
     echo -en "%{c}${RESET}${CACHE[CLOCK]}"
@@ -70,6 +75,7 @@ PIDS="$PIDS $!"
 source "$DIR/modules/battery.sh" & PIDS="$PIDS $!"
 source "$DIR/modules/clock.sh" & PIDS="$PIDS $!"
 source "$DIR/modules/i3spaces.sh" & PIDS="$PIDS $!"
+source "$DIR/modules/i3window.sh" & PIDS="$PIDS $!"
 source "$DIR/modules/i3lock.sh" & PIDS="$PIDS $!"
 
 wait $PIDS

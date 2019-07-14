@@ -17,7 +17,7 @@ i3window() {
     title="${title:0:$((${#title} - 1))}"
   fi
 
-  echo $title
+  echo "$title"
 }
 
 # Initially, populate it with something, because we don't get

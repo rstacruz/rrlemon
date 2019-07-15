@@ -18,6 +18,7 @@ export \
   LINE_PAD \
   TEXT_OFFSET \
   SPACE_WIDTH SPACE_2_WIDTH \
+  BACKDROP_ENABLED \
   MODULES
 
 # Cleanup crew
@@ -53,22 +54,24 @@ echo "" \
 PIDS="$PIDS $!"
 
 # Backdrop
-"${DIR}/bars/backdrop.sh" \
-  | lemonbar \
-  -g "${SCREEN_WIDTH}x128" \
-  -n 'bar-backdrop' \
-  -F "$MUTE_COLOR" \
-  -d \
-  "$(if [[ "$POSITION" == "top" ]]; then echo -ne "-b"; fi)" \
-  -f "$XL_FONT" \
-  &
-PIDS="$PIDS $!"
+if [[ "$BACKDROP_ENABLED" != "0" ]]; then
+  "${DIR}/bars/backdrop.sh" \
+    | lemonbar \
+    -g "${SCREEN_WIDTH}x128" \
+    -n 'bar-backdrop' \
+    -F "$MUTE_COLOR" \
+    -d \
+    "$(if [[ "$POSITION" == "top" ]]; then echo -ne "-b"; fi)" \
+    -f "$XL_FONT" \
+    &
+  PIDS="$PIDS $!"
 
-# Lower the backdrop below all windows
-while ! xdo id -a "bar-backdrop" &>/dev/null; do sleep 0.1; done
-xdo id -a "bar-backdrop" | while read id; do
-  xdo lower "$id"
-done
+  # Lower the backdrop below all windows
+  while ! xdo id -a "bar-backdrop" &>/dev/null; do sleep 0.1; done
+  xdo id -a "bar-backdrop" | while read id; do
+    xdo lower "$id"
+  done
+fi
 
 # Wait for those pids
 wait $PIDS

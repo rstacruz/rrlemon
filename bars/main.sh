@@ -62,6 +62,8 @@ cache:push() {
 while read line <$PIPE; do
   key="$(echo "$line" | cut -d' ' -f1)"
   val="$(echo "$line" | cut -d' ' -f2-)"
+  # Allow '-' to be empty
+  if [[ "$val" == "-" ]]; then val=""; fi
   CACHE["$key"]="$val"
   output="$(bar)"
   if [[ "${CACHE[_output]}" != "$output" ]]; then

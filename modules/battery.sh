@@ -1,4 +1,9 @@
 battery() {
+  if ! test -d /sys/class/power_supply/BAT0; then
+    echo -ne "-"
+    return
+  fi
+
   # battery percent ('85%')
   local percent="$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null)%"
 

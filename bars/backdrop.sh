@@ -15,7 +15,22 @@ clock() {
   echo "$date"
 }
 
+position() {
+  case "$1" in
+    left)
+      echo -ne "%{l}"
+      ;;
+    center)
+      echo -ne "%{c}"
+      ;;
+    *)
+      echo -ne "%{r}"
+      ;;
+  esac
+}
+
 while true; do
-  echo "%{r}$(clock)%{O32}"
+  pos="$(position ${BACKDROP_POSITION:-right})"
+  echo "$pos%{O32}$(clock)%{O32}"
   sleep 1
 done

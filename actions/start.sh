@@ -18,7 +18,7 @@ export \
   LINE_PAD \
   TEXT_OFFSET \
   SPACE_WIDTH SPACE_2_WIDTH \
-  BACKDROP_ENABLED \
+  BACKDROP_ENABLED BACKDROP_HEIGHT BACKDROP_POSITION \
   MODULES
 
 # Cleanup crew
@@ -57,7 +57,7 @@ PIDS="$PIDS $!"
 if [[ "$BACKDROP_ENABLED" != "0" ]]; then
   "${DIR}/bars/backdrop.sh" \
     | lemonbar \
-    -g "${SCREEN_WIDTH}x128" \
+    -g "${SCREEN_WIDTH}x${BACKDROP_HEIGHT}" \
     -n 'bar-backdrop' \
     -F "$MUTE_COLOR" \
     -d \

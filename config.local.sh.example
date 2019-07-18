@@ -22,5 +22,11 @@ HEIGHT="44"
 MODULES="lr"
 # MODULES="mid"
 
-XL_FONT="Inter Thin BETA-64"
 # TEXT_OFFSET=-8
+
+XL_FONT="Inter Thin BETA-64"
+
+# [Larger clock]
+# XL_FONT="Inter Thin BETA-96"
+# BACKDROP_HEIGHT="160"
+# BACKDROP_POSITION="center"

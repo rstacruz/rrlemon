@@ -4,6 +4,13 @@ MUTE_COLOR="#60f0f0FF"
 LINE_PAD="0"
 LINE_COLOR="#20ffffff"
 
+# [Light colors]
+# BACKGROUND_COLOR="#d0eaeaea"
+# MUTE_COLOR="#10808080"
+# LINE_PAD="0"
+# LINE_COLOR="#20323232"
+# TEXT_COLOR="#FF121212"
+
 # [Translucent mode]
 # BACKGROUND_COLOR="#40000000"
 # LINE_PAD="0"

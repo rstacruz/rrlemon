@@ -16,6 +16,13 @@ LINE_COLOR="#20ffffff"
 # LINE_PAD="0"
 # LINE_COLOR="#20ffffff"
 
+# [xrdb mode]
+# get_xrdb_color() { echo -n $(xrdb -query | grep $1 | head -n 1 | cut -d'#' -f2); }
+# BACKGROUND_COLOR="#c0$(get_xrdb_color background)"
+# BACKGROUND_COLOR="#80000000"
+# TEXT_COLOR="#ff$(get_xrdb_color color5)"
+# MUTE_COLOR="#ff$(get_xrdb_color color1)"
+
 # [Position]
 POSITION="top"
 # POSITION="bottom"

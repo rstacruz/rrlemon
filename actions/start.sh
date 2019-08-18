@@ -18,7 +18,9 @@ export \
   LINE_PAD \
   TEXT_OFFSET \
   SPACE_WIDTH SPACE_2_WIDTH \
-  BACKDROP_ENABLED BACKDROP_HEIGHT BACKDROP_POSITION \
+  BACKDROP_ENABLED BACKDROP_HEIGHT \
+  BACKDROP_POSITION_X BACKDROP_POSITION_Y \
+  BACKDROP_TEXT_COLOR \
   MODULES
 
 # Cleanup crew
@@ -55,13 +57,27 @@ PIDS="$PIDS $!"
 
 # Backdrop
 if [[ "$BACKDROP_ENABLED" != "0" ]]; then
+
+  if [[ "$POSITION" == "top" ]]; then
+    if [[ "$BACKDROP_POSITION_Y" == "top" ]]; then
+      Y="$((HEIGHT))"
+    else
+      Y="0"
+    fi
+  else
+    if [[ "$BACKDROP_POSITION_Y" == "top" ]]; then
+      Y="0"
+    else
+      Y="$((SCREEN_HEIGHT - HEIGHT - BACKDROP_HEIGHT))"
+    fi
+  fi
+
   "${DIR}/bars/backdrop.sh" \
     | lemonbar \
-    -g "${SCREEN_WIDTH}x${BACKDROP_HEIGHT}" \
+    -g "${SCREEN_WIDTH}x${BACKDROP_HEIGHT}+0+$Y" \
     -n 'bar-backdrop' \
-    -F "$MUTE_COLOR" \
+    -F "$BACKDROP_TEXT_COLOR" \
     -d \
-    "$(if [[ "$POSITION" == "top" ]]; then echo -ne "-b"; fi)" \
     -f "$XL_FONT" \
     &
   PIDS="$PIDS $!"

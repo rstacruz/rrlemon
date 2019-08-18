@@ -43,4 +43,8 @@ XL_FONT="Inter Thin BETA-64"
 # [Larger clock]
 # XL_FONT="Inter Thin BETA-96"
 # BACKDROP_HEIGHT="160"
-# BACKDROP_POSITION="center"
+# BACKDROP_ENABLED="1"
+# BACKDROP_HEIGHT="192"
+# BACKDROP_POSITION_X="center" # left | center | right
+# BACKDROP_POSITION_Y="bottom" # top | bottom
+# BACKDROP_TEXT_COLOR="#ffffff"

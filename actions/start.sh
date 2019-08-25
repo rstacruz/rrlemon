@@ -61,10 +61,10 @@ if [[ "$BACKDROP_ENABLED" != "0" ]]; then
   if [[ "$POSITION" == "top" ]]; then
     if [[ "$BACKDROP_POSITION_Y" == "top" ]]; then
       Y="$((HEIGHT))"
-    else
-      Y="0"
+    else # bottom
+      Y="$((SCREEN_HEIGHT - BACKDROP_HEIGHT))"
     fi
-  else
+  else # bottom
     if [[ "$BACKDROP_POSITION_Y" == "top" ]]; then
       Y="0"
     else

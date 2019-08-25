@@ -32,5 +32,5 @@ position() {
 while true; do
   pos="$(position ${BACKDROP_POSITION_X:-right})"
   echo "$pos%{O32}$(clock)%{O32}"
-  sleep 1
+  sleep 10
 done

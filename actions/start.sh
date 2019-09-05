@@ -26,18 +26,6 @@ export \
 # Cleanup crew
 PIDS=""
 
-"${DIR}/bars/main.sh" \
-  | lemonbar \
-  -g "${SCREEN_WIDTH}x$((HEIGHT - 1))" \
-  "$(if [[ "$POSITION" == "bottom" ]]; then echo -ne "-b"; fi)" \
-  -F "$TEXT_COLOR" \
-  -f "$MAIN_FONT" \
-  -B "$BACKGROUND_COLOR" \
-  -f "Font Awesome 5 Free-Regular-10" \
-  -o "$TEXT_OFFSET" \
-  &
-PIDS="$PIDS $!"
-
 if [[ "$POSITION" == "top" ]]; then
   LINE_POSITION="$((LINE_PAD))+$((HEIGHT - 1))"
 else
@@ -88,6 +76,19 @@ if [[ "$BACKDROP_ENABLED" != "0" ]]; then
     xdo lower "$id"
   done
 fi
+
+# Main bar
+"${DIR}/bars/main.sh" \
+  | lemonbar \
+  -g "${SCREEN_WIDTH}x$((HEIGHT - 1))" \
+  "$(if [[ "$POSITION" == "bottom" ]]; then echo -ne "-b"; fi)" \
+  -F "$TEXT_COLOR" \
+  -f "$MAIN_FONT" \
+  -B "$BACKGROUND_COLOR" \
+  -f "Font Awesome 5 Free-Regular-10" \
+  -o "$TEXT_OFFSET" \
+  &
+PIDS="$PIDS $!"
 
 # Wait for those pids
 wait $PIDS

@@ -44,6 +44,10 @@ bar() {
     echo -en "%{l}$__${CACHE[I3SPACES]}"
     echo -en "%{r}${CACHE[BATTERY]}$__${RESET}${CACHE[CLOCK]}$__"
     echo -en "%{c}${RESET}${CACHE[I3WINDOW]}"
+  elif [[ "$MODULES" == "center" ]]; then
+    # mid (middle window title)
+    echo -en "%{c}${CACHE[I3SPACES]}"
+    echo -en "%{r}${CACHE[BATTERY]}$__${RESET}${CACHE[CLOCK]}$__"
   else
     # midclock
     echo -en "%{l}$__${CACHE[I3SPACES]}"

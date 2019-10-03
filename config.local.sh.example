@@ -34,6 +34,7 @@ HEIGHT="44"
 
 # [Modules]
 MODULES="lr"
+# MODULES="center"
 # MODULES="mid"
 
 # TEXT_OFFSET=-8
@@ -48,3 +49,6 @@ XL_FONT="Inter Thin BETA-64"
 # BACKDROP_POSITION_X="center" # left | center | right
 # BACKDROP_POSITION_Y="bottom" # top | bottom
 # BACKDROP_TEXT_COLOR="#ffffff"
+
+# I3SPACES_MODE="pips"
+I3SPACES_MODE="names"

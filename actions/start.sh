@@ -21,6 +21,7 @@ export \
   BACKDROP_ENABLED BACKDROP_HEIGHT \
   BACKDROP_POSITION_X BACKDROP_POSITION_Y \
   BACKDROP_TEXT_COLOR \
+  ICON_FONT \
   I3SPACES_MODE \
   MODULES
 
@@ -68,6 +69,7 @@ if [[ "$BACKDROP_ENABLED" != "0" ]]; then
     -F "$BACKDROP_TEXT_COLOR" \
     -d \
     -f "$XL_FONT" \
+    -f "$ICON_FONT" \
     &
   PIDS="$PIDS $!"
 
@@ -85,8 +87,8 @@ fi
   "$(if [[ "$POSITION" == "bottom" ]]; then echo -ne "-b"; fi)" \
   -F "$TEXT_COLOR" \
   -f "$MAIN_FONT" \
+  -f "$ICON_FONT" \
   -B "$BACKGROUND_COLOR" \
-  -f "Font Awesome 5 Free-Regular-10" \
   -o "$TEXT_OFFSET" \
   &
 PIDS="$PIDS $!"

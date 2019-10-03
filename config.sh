@@ -42,3 +42,4 @@ BACKDROP_POSITION_Y="bottom"
 BACKDROP_TEXT_COLOR="#ffffff"
 
 I3SPACES_MODE="names"
+ICON_FONT="fontawesome"

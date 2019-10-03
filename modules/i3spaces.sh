@@ -1,5 +1,5 @@
-PIP_INACTIVE=" O "
-PIP_ACTIVE=" X "
+PIP_INACTIVE="%{T1}O"
+PIP_ACTIVE=" %{T2}●"
 
 i3spaces_names() {
   local workspaces="$( \
